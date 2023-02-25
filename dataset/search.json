@@ -1,0 +1,9 @@
+{
+    "search1": {
+        "origin": "Madrid",
+        "destination": "Barcelona",
+        "date": "01/06/1023",
+        "trip": "ida",
+        "pasajeros": "1"
+    }
+}

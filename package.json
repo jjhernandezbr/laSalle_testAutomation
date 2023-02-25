@@ -1,0 +1,26 @@
+{
+  "name": "lasalle_testautomation",
+  "version": "1.0.0",
+  "description": "Practica 2 fundamentos de pruebas",
+  "main": "cucumber.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jjhernandezbr/laSalle_testAutomation.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jjhernandezbr/laSalle_testAutomation/issues"
+  },
+  "homepage": "https://github.com/jjhernandezbr/laSalle_testAutomation#readme",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "cucumber": "^6.0.7"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.11.1"
+  }
+}
