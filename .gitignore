@@ -1,1 +1,10 @@
 node_modules
+# Allure report directories
+/allure-report/
+/allure-results/
+
+# Allure report files
+*.png
+*.txt
+*.xml
+*.json
