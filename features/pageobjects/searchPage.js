@@ -42,6 +42,15 @@ class SearchPage extends Page {
     get dateFrom(){
         return $('.date-range > .input-group');
     }
+    get monthTrip(){
+        return $('.ui-datepicker-month');
+    }
+    get dayTrip(){
+        return "#calendarDaysTable2023";
+    }
+    get btnNextMonth(){
+        return $('#nextButtonCalendar');
+    }
 
 
     /**
@@ -68,7 +77,6 @@ class SearchPage extends Page {
         return this.listItemDestination.click();
     }
     async selectTripType(tripType){
-        await new Promise(r => setTimeout(r, 10000));
         if(tripType === "Ida"){
             await this.rdbOneWay.waitForDisplayed();
             return this.rdbOneWay.click();
@@ -76,6 +84,19 @@ class SearchPage extends Page {
             await this.rdbReturn.waitForDisplayed();
             return this.rdbReturn.click();
         }
+    }
+
+    async selectDate(DateTripDay, DateTripMonth){
+        var monthSelected = await this.monthTrip.getText();
+       while(monthSelected =! DateTripMonth){
+            await this.btnNextMonth.click();
+            await new Promise(r => setTimeout(r, 2000));
+            await this.dateTrip.waitForDisplayed();
+            monthSelected = await this.dateTrip.getText();
+        }
+
+        var dayToSelect = $(this.dayTrip + "2" + "5");
+        await dayToSelect.click();
     }
 }
 

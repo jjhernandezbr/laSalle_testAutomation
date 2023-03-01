@@ -18,4 +18,8 @@ When("I select a trip type {string}", async (tripType) =>{
     await searchPage.selectTripType(tripType);
 });
 
+When("I seach with date of dateDepature {string} de {string}", async (DateTripDay, DateTripMonth) =>{
+    await searchPage.selectDate(DateTripDay, DateTripMonth);
+});
+
 

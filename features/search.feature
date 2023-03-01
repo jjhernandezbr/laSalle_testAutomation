@@ -5,5 +5,4 @@ Feature: Search
     When I search a ticket from "Madrid"
     And I search a ticket to "Barcelona"
     And I select a trip type "Ida"
-    And I seach with date of dateDepature <dateDepature>
-    And There are <passenger> of us
+    And I seach with date of dateDepature "01" de "Junio"
