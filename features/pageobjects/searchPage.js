@@ -21,14 +21,14 @@ class SearchPage extends Page {
     }
 
     get btnSubmit () {
-        return $('button[type="submit"]');
+        return $('#btnSubmitHomeSearcher');
     }
 
     get rdbReturn (){
         return $('#returnLabel .radio-circle_outer');
     }
     get rdbOneWay (){
-        return $('#oneWayLabel .radio-circle_outer');
+        return $('#oneWayLabel');
     }
 
     get listItemOrigin(){
@@ -78,25 +78,31 @@ class SearchPage extends Page {
     }
     async selectTripType(tripType){
         if(tripType === "Ida"){
-            await this.rdbOneWay.waitForDisplayed();
-            return this.rdbOneWay.click();
+            await this.rdbOneWay.waitForDisplayed(2000);
+            await new Promise(r => setTimeout(r, 2000));
+            return await this.rdbOneWay.click();
         }else{
             await this.rdbReturn.waitForDisplayed();
-            return this.rdbReturn.click();
+            return await this.rdbReturn.click();
         }
     }
 
     async selectDate(DateTripDay, DateTripMonth){
-        var monthSelected = await this.monthTrip.getText();
-       while(monthSelected =! DateTripMonth){
+       var monthSelected = await this.monthTrip.getText();
+       console.log("month : " + monthSelected);
+       while(monthSelected != DateTripMonth){
             await this.btnNextMonth.click();
             await new Promise(r => setTimeout(r, 2000));
-            await this.dateTrip.waitForDisplayed();
-            monthSelected = await this.dateTrip.getText();
+            await this.monthTrip.waitForDisplayed();
+            monthSelected = await this.monthTrip.getText();
+            console.log("month : " + monthSelected);
         }
-
-        var dayToSelect = $(this.dayTrip + "2" + "5");
+        const options = { month: "numeric" };
+        const monthNumber = new Date(`${DateTripMonth} 1, 2000`).toLocaleString("es-ES", options);
+        console.log(monthNumber);
+        var dayToSelect = $(this.dayTrip + monthNumber + DateTripDay);
         await dayToSelect.click();
+        await this.btnSubmit.click();
     }
 }
 

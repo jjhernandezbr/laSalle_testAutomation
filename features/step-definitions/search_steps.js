@@ -1,4 +1,5 @@
 const searchPage = require('../pageobjects/searchPage');
+const resultPage = require('../pageobjects/resultPage');
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 
 Given("I am on the initial page", async ()=> {
@@ -21,5 +22,11 @@ When("I select a trip type {string}", async (tripType) =>{
 When("I seach with date of dateDepature {string} de {string}", async (DateTripDay, DateTripMonth) =>{
     await searchPage.selectDate(DateTripDay, DateTripMonth);
 });
+
+Then("I get available flight", async () =>{
+    await resultPage.existsFlights();
+});
+
+
 
 

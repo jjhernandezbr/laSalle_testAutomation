@@ -5,4 +5,5 @@ Feature: Search
     When I search a ticket from "Madrid"
     And I search a ticket to "Barcelona"
     And I select a trip type "Ida"
-    And I seach with date of dateDepature "01" de "Junio"
+    And I seach with date of dateDepature "1" de "JUNIO"
+    Then I get available flight
