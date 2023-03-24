@@ -1,4 +1,4 @@
-//const HtmlReporter = require('wdio-html-reporter');
+const allure = require('allure-commandline')
 
 exports.config = {
     //
@@ -7,7 +7,12 @@ exports.config = {
     // ====================
     // WebdriverIO supports running e2e tests as well as unit and component tests.
     runner: 'local',
-
+    framework: 'mocha',
+    reporters: ['allure'],
+    mochaOpts: {
+        ui: 'bdd',
+        timeout: 60000
+    },
     //
     // ==================
     // Specify Test Files
@@ -136,20 +141,12 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [
-        /*'spec',
-        [HtmlReporter, {
-            // Output directory for the report
-            outputDir: './reports/html',
-            // Automatically create the output directory if it doesn't exist
-            mkdir: true,
-            // Filename for the report
-            filename: 'report.html',
-            // Report title
-            reportTitle: 'My Test Report',
-            // Include screenshots in the report
-            showInBrowser: true,
-        }],*/
+    reporters: ['spec',
+    ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }]
     ],
 
 
@@ -193,8 +190,9 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -278,8 +276,11 @@ exports.config = {
      * @param {number}             result.duration  duration of scenario in milliseconds
      * @param {Object}             context          Cucumber World object
      */
-    // afterStep: function (step, scenario, result, context) {
-    // },
+    afterStep: async function (step, scenario, result, context) {
+        if (error) {
+            await browser.takeScreenshot();
+          }
+    },
     /**
      *
      * Runs after a Cucumber Scenario.
@@ -335,8 +336,26 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    //onComplete: function (exitCode, config, capabilities, results) {
-    //},
+    onComplete: function (exitCode, config, capabilities, results) {
+        const reportError = new Error('Could not generate Allure report')
+        const generation = allure(['generate', 'allure-results', '--clean'])
+        return new Promise((resolve, reject) => {
+            const generationTimeout = setTimeout(
+                () => reject(reportError),
+                5000)
+
+            generation.on('exit', function(exitCode) {
+                clearTimeout(generationTimeout)
+
+                if (exitCode !== 0) {
+                    return reject(reportError)
+                }
+
+                console.log('Allure report successfully generated')
+                resolve()
+            })
+        })
+    },
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session

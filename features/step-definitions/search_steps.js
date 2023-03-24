@@ -1,6 +1,7 @@
 const searchPage = require('../pageobjects/searchPage');
 const resultPage = require('../pageobjects/resultPage');
 const { Given, When, Then } = require('@wdio/cucumber-framework');
+const expect = require('chai');
 
 Given("I am on the initial page", async ()=> {
     await searchPage.open();
@@ -24,7 +25,7 @@ When("I seach with date of dateDepature {string} de {string}", async (DateTripDa
 });
 
 Then("I get available flight", async () =>{
-    await resultPage.existsFlights();
+    expect(await resultPage.existsFlights()).to.be(true);
 });
 
 
