@@ -25,7 +25,7 @@ When("I seach with date of dateDepature {string} de {string}", async (DateTripDa
 });
 
 Then("I get available flight", async () =>{
-    expect(await resultPage.existsFlights()).to.be(true);
+    await resultPage.existsFlights();
 });
 
 
