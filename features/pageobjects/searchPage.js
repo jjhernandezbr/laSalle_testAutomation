@@ -1,4 +1,3 @@
-const utils = require('../support/utils');
 const Page = require('./page');
 
 /**
